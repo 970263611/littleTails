@@ -56,10 +56,3 @@ app.on('activate', () => {
     createWindow()
   }
 })
-
-//关闭窗口
-ipcMain.on('window-close', function () {
-  console.log('cccccccccccccccccccccccccccccccccccccc')
-  mainWindow.close()
-  app.quit()
-})

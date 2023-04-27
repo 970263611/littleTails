@@ -45,7 +45,6 @@ import { getUserInfo } from 'src/api/setting'
 import ImportDialog from './dialog/ImportDialog.vue'
 import AutoSaveDialog from './dialog/AutoSaveDialog.vue'
 import SettingsDialog from './dialog/SettingsDialog.vue'
-let ipcRenderer = require('electron').ipcRenderer
 
 const {
   mapState: mapSettingState,
@@ -101,7 +100,7 @@ export default {
       }
     },
     closeApp () {
-      ipcRenderer.send('window-close')
+      this.$q.electron.remote.app.quit()
     }
   },
 }
