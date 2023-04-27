@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-header class="header bg-black">
+    <q-header class="header bg-black q-electron-drag">
       <!-- 3333 -->
       <div class="text-grey show-left">
         <q-btn icon='pageview' dense flat round class='fab-icon cursor-pointer material-icons-round ' size='md'
@@ -28,6 +28,9 @@
         <!-- <div>{{ store.counter  }} {{counter }}</div> -->
         <q-btn icon='settings' dense flat round class='fab-icon cursor-pointer material-icons-round' size='md'
           color='#26A69A' v-ripple @click="showSetting" />
+        <q-btn dense flat icon="minimize" @click="minimize" />
+        <q-btn dense flat icon="crop_square" @click="maximize" />
+        <q-btn dense flat icon="close" class="close-button" @click="closeApp" />
       </div>
     </q-header>
     <ImportDialog ref="ImportDialog"></ImportDialog>
@@ -42,6 +45,8 @@ import { getUserInfo } from 'src/api/setting'
 import ImportDialog from './dialog/ImportDialog.vue'
 import AutoSaveDialog from './dialog/AutoSaveDialog.vue'
 import SettingsDialog from './dialog/SettingsDialog.vue'
+let ipcRenderer = require('electron').ipcRenderer
+
 const {
   mapState: mapSettingState,
   mapActions: mapSettingActions
@@ -83,6 +88,20 @@ export default {
     },
     showSetting() {
       this.$refs.settingsVisibleRef.showDialog()
+    },
+    minimize () {
+      this.$q.electron.remote.BrowserWindow.getFocusedWindow().minimize()
+    },
+    maximize () {
+      const win = this.$q.electron.remote.BrowserWindow.getFocusedWindow()
+      if (win.isMaximized()) {
+        win.unmaximize()
+      } else {
+        win.maximize()
+      }
+    },
+    closeApp () {
+      ipcRenderer.send('window-close')
     }
   },
 }
