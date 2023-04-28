@@ -1,10 +1,11 @@
-import { app, BrowserWindow, nativeTheme,ipcMain } from 'electron'
+import {app, BrowserWindow, nativeTheme} from 'electron'
 
 try {
   if (process.platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
     require('fs').unlinkSync(require('path').join(app.getPath('userData'), 'DevTools Extensions'))
   }
-} catch (_) { }
+} catch (_) {
+}
 
 /**
  * Set `__statics` path to static files in production;
@@ -17,7 +18,7 @@ if (process.env.PROD) {
 
 let mainWindow
 
-function createWindow () {
+function createWindow() {
   /**
    * Initial window options
    */
@@ -38,8 +39,11 @@ function createWindow () {
 
   mainWindow.loadURL(process.env.APP_URL)
 
-  mainWindow.on('closed', () => {
-    mainWindow = null
+  mainWindow.on('close', (event) => {
+    // 最小化系统托盘
+    // event.preventDefault() // This will cancel the close
+    // mainWindow.hide()
+    app.exit()
   })
 }
 
