@@ -43,6 +43,7 @@ function createWindow() {
     // 最小化系统托盘
     // event.preventDefault() // This will cancel the close
     // mainWindow.hide()
+    alert('正在保存数据，保存完毕后将退出。。。')
     app.exit()
   })
 }
