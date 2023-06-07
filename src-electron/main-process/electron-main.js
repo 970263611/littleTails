@@ -32,6 +32,7 @@ function createWindow() {
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
       nodeIntegration: process.env.QUASAR_NODE_INTEGRATION,
       nodeIntegrationInWorker: process.env.QUASAR_NODE_INTEGRATION,
+      contextIsolation: process.env.QUASAR_CONTEXTISOLATION,
       // More info: /quasar-cli/developing-electron-apps/electron-preload-script
       // preload: path.resolve(__dirname, 'electron-preload.js')
     }
@@ -43,8 +44,7 @@ function createWindow() {
     // 最小化系统托盘
     // event.preventDefault() // This will cancel the close
     // mainWindow.hide()
-    alert('正在保存数据，保存完毕后将退出。。。')
-    app.exit()
+    app.quit()
   })
 }
 

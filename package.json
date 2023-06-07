@@ -1,9 +1,8 @@
 {
-  "name": "muya-quasar-vue2",
-  "version": "0.0.1",
-  "description": "A Quasar Project",
-  "productName": "Quasar App",
-  "author": "Hao-q <haoq0725@163.com>",
+  "name": "tails",
+  "version": "1.0.0",
+  "description": "云笔记",
+  "productName": "tails",
   "private": true,
   "scripts": {
     "test": "echo \"No test specified\" && exit 0",
@@ -18,40 +17,37 @@
     "core-js": "^3.6.5",
     "dotenv": "^16.0.3",
     "execall": "^3.0.0",
+    "extend": "^3.0.2",
+    "git-config-path": "^2.0.0",
     "joplin-turndown-plugin-gfm": "^1.0.12",
     "monaco-editor": "^0.25.2",
+    "nedb": "^1.8.0",
+    "nodegit": "^0.27.0",
+    "parse-git-config": "^3.0.0",
     "quasar": "^1.0.0",
     "unsplash-js": "^7.0.15",
-    "vega": "^5.1.0",
-    "vega-embed": "^6.4.0",
+    "vega": "5.1.0",
+    "vega-embed": "6.4.0",
     "vega-label": "^1.2.1",
     "vega-lite": "^4.7.0",
     "vue-i18n": "^8.0.0",
-    "webfontloader": "^1.6.28",
-    "extend": "^3.0.2",
-    "git-config-path": "^2.0.0",
-    "nodegit": "^0.27.0",
-    "parse-git-config": "^3.0.0"
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
     "devtron": "^1.4.0",
-    "electron": "^9.4.4",
+    "electron": "^24.2.0",
     "electron-debug": "^3.2.0",
     "electron-devtools-installer": "^3.2.0",
     "mockjs": "^1.1.0"
   },
+  "overrides": {
+    "vega": "5.1.0",
+    "vega-embed": "6.4.0"
+  },
   "browserslist": [
-    "ie >= 11",
-    "last 10 Chrome versions",
-    "last 10 Firefox versions",
-    "last 4 Edge versions",
-    "last 7 Safari versions",
-    "last 8 Android versions",
-    "last 8 ChromeAndroid versions",
-    "last 8 FirefoxAndroid versions",
-    "last 10 iOS versions",
-    "last 5 Opera versions"
+    "defaults and supports es6-module",
+    "maintained node versions"
   ],
   "engines": {
     "node": ">= 10.18.1",
