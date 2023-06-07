@@ -19,7 +19,7 @@
           enter-active-class="animated fadeIn"
           leave-active-class="animated fadeOut"
         >  -->
-          <Sidebar key="sidebar" v-if="tabaListShow"></Sidebar>
+          <Sidebar key="sidebar" v-show="tabaListShow"></Sidebar>
           <NoteOutlineDrawer key="note_outline_drawer" v-if="!tabaListShow"></NoteOutlineDrawer>
         <!-- </transition-group> -->
       </template>
@@ -28,7 +28,7 @@
         <div class="full-height mian_content">
           <!-- muya -->
           <!-- 代码编辑器 --> 
-          <div class="my_dom" v-show="!isSourceMode">
+          <div class="my_dom" v-show="!isSourceMode && isNullStyle">
             <muya></muya>
           </div>
           <!--代码展示编辑器-->
@@ -48,7 +48,7 @@
           <div class="rgBtnBlock">
             <transition
               appear
-              enter-active-class="animated fadeIn"
+              enter-active-class="animated fadeIn" 
               leave-active-class="animated fadeOut"
             >
               <RightBtnList></RightBtnList>
@@ -96,12 +96,15 @@ export default {
       newsplitterWidthValue:30,
       splitterLimits: [0, 60],
       muyaData:{},
+      // isNullStyle:false/
+      
       // tabaListShow:true
       // isShow:false
     };
   },
   computed: {
-    ...mapSettingState(["isSideBarShow",'tabaListShow', "isSourceMode",'toggleLeftDrawer','enablePreviewEditor']),
+    ...mapSettingState(["isSideBarShow",'tabaListShow','isNullStyle',
+     "isSourceMode",'toggleLeftDrawer','enablePreviewEditor']),
     // splitterLimits(){
     //   if(!this.isSideBarShow && !this.toggleLeftDrawer){
     //     return [0, 0]
@@ -121,6 +124,11 @@ export default {
     return {
       reload: this.reload,
     };
+  },
+  mounted(){
+    window.addEventListener("resize", () => {
+       this.reload()
+      })
   },
   watch: {
     isSideBarShow: function (currentData) {

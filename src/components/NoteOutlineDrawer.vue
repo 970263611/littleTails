@@ -26,7 +26,6 @@
         :selected.sync='selected'
         :expanded.sync='expanded'
       />
-      <div>2222</div>
     </q-scroll-area>
     <!-- <q-icon
       name='close'
@@ -45,6 +44,8 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
+import bus from '../components/bus'
+import helper from '../utils/index'
 const {
   mapState: mapSettingState,
   mapActions: mapSettingActions
@@ -60,10 +61,17 @@ export default {
   computed:{
     ...mapSettingState(['toggleLeftDrawer'])
   },
+  created(){
+    this.listData = bus.sendDataAll.toc
+    // updateContentsList(this.listData)
+    console.log(this.listData);
+    this.contentsList = helper.updateContentsList(this.listData)
+    console.log(this.contentsList);
+  },
   methods:{
     hide(){
       this.$store.commit('setting/click_toggle_left_drawer',!this.toggleLeftDrawer)
-    }
+    },
   }
 }
 

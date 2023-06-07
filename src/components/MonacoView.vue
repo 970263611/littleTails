@@ -145,5 +145,10 @@ export default {
   }
 }
 </script>
+<style>
+.decorationsOverviewRuler{
+  /* width: 8px!important; */
+}
+</style>
 
 

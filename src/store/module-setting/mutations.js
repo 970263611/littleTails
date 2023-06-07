@@ -19,3 +19,6 @@ export const taba_list_show =(state, payload) =>{
 export const click_annex_show =(state, payload) =>{
   state.isAnnexShow = payload
 }
+export const click_sidebar_show =(state, payload) =>{
+  state.isNullStyle = payload
+}

@@ -1,1 +1,9 @@
-// app global css in SCSS form
+.q-scrollarea__bar--v, .q-scrollarea__thumb--v {
+  right: 0;
+  width: 6px;
+  // background: #9e9e9e;
+}
+
+.q-body--force-scrollbar{
+  overflow-y: auto!important;
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll bg-grey-3 full-height">
+  <div class="scroll bg-white full-height">
     <q-scroll-area class="full-height">
       <div class="q-pa-md" v-show="isShowSearch">
         <q-input outlined v-model="searchVal">
@@ -12,12 +12,13 @@
         </q-input>
       </div>
       <q-list>
-        <q-item clickable v-ripple="{ color: '#212121' }" v-for="(item, index) in listitems" @click="toDetails(item)"
+        <q-item clickable v-ripple="{ color: '#212121' }" :active="item.active" active-class="bg-grey-3 text-grey-8"
+         v-for="(item, index) in listitems" @click="toDetails(item)"
           :key="index">
           <q-item-section>
             <div @contextmenu.prevent="openMenu($event, item,index)" class="sidebar_list">
               <div v-if="!item.isEditName" class="note-item-title" v-html="item.title"></div>
-              <input type="text" class="note-item-title inpstyle" v-if="item.isEditName"  v-model="item.title"  @blur="saveName">
+              <input type="text" class="note-item-title inpstyle" v-if="item.isEditName" @click.stop="editName"  v-model="item.title"  @blur="saveName">
               <!-- <q-input  @blur="saveName"  v-if="item.isEditName" class="note-item-title" v-model="item.title"  /> -->
               <div class="note-item-summary text-grey-7" v-html="item.summary"></div>
 
@@ -70,8 +71,45 @@
 </template>
 
 <script>
+let MARKDOWN1  = `# 离线同步 — 没网也可以随时查看笔记.md
+
+##你可以利用为知笔记随时随地记录和查看有价值的信息，所有数据在电脑、手机、平板、网页可通过同步保持一致。
+
+#### 有用信息同步到云端，安全又省事
+
+你是不是偶尔会遇到下面一些情况：
+
+1. 手机意外重启，写了好久的内容还没来得及保存？
+2. 手机丢失，各种照片和信息没有备份，无法找回？芙蓉湖好烦人 今日进入
+3. 更换手机或电脑，各种信息还需要来来回回 copy 才能继续使用？
+
+无需费劲的备份或拷贝，利用为知笔记，数据都保存到云端，再也不用担心数据丢失。
+
+
+`
+let MARKDOWN2 = `# 3 分钟创建格式美美的笔记.md
+
+如果你想创建格式美美的，且包含文字，表格，图片，公式，甚至是不同型号标题的笔记，那么推荐你使用Markdown 笔记。为知笔记支持 Markdown 的渲染，用简单的语法就可以写出赏心悦目的笔记。
+
+#### 简单两步完成操作
+
+1. **长按**笔记列表底端的羽毛笔，选择 **Markdown**
+2. 在正文中撰写 Markdown 语法，点击完成，就可以看到渲染后美美的笔记啦。
+
+简单介绍几种常用语法
+
+##### 标题
+
+在行首插入 1 到 6个#，分别表示标题 1 到标题 6
+
+##### 这是标题5
+
+###### 这是标题6
+`
 import { createNamespacedHelpers } from 'vuex'
 import AddFileDialog from './dialog/AddFileDialog.vue';
+import bus from '../components/bus'
+
 const {
   mapState: mapSettingState,
   mapActions: mapSettingActions
@@ -84,38 +122,19 @@ export default {
     return {
       listitems: [
         {
-          title: "标题",
-          summary: "在手机上的浏览器里看到有价值的网页时，点击底端的 **分享按钮**，选择 **为知笔记**，网页内容就保存到为知笔记啦！",
+          title: "3 分钟创建格式美美的笔记.md",
+          summary: "如果你想创建格式美美的，且包含文字，表格，图片，公式，甚至是不同型号标题的笔记，那么推荐你使用Markdown",
           isEditName:false,
           isEditfolder:false,
-          folder:'文件夹1'
+          folder:'文件夹1',
+          active:false
         },
         {
-          title: "标题",
-          summary: "在手机上的浏览器里看到有价值的网页时，点击底端的 **分享按钮**，选择 **为知笔记**，网页内容就保存到为知笔记啦！",
+          title: "离线同步 — 没网也可以随时查看笔记.md",
+          summary: "你可以利用为知笔记随时随地记录和查看有价值的信息，所有数据在电脑、手机、平板、网页可通过同步保持一致。",
           isEditName:false,
-          folder:'文件夹2'
-
-        },
-        {
-          title: "标题",
-          summary: "在手机上的浏览器里看到有价值的网页时，点击底端的 **分享按钮**，选择 **为知笔记**，网页内容就保存到为知笔记啦！",
-          isEditName:false,
-          folder:'文件夹3'
-
-        },
-        {
-          title: "标题",
-          summary: "在手机上的浏览器里看到有价值的网页时，点击底端的 **分享按钮**，选择 **为知笔记**，网页内容就保存到为知笔记啦！",
-          isEditName:false,
-          folder:'文件夹2'
-
-        },
-        {
-          title: "标题",
-          summary: "在手机上的浏览器里看到有价值的网页时，点击底端的 **分享按钮**，选择 **为知笔记**，网页内容就保存到为知笔记啦！",
-          isEditName:false,
-          folder:'文件夹1'
+          folder:'文件夹2',
+          active:false
 
         },
       ],
@@ -153,8 +172,14 @@ export default {
       this.$store.commit("setting/click_toogle_search", !this.isShowSearch);
     },
     rename() {
+      this.listitems.forEach(i=>{
+         i.isEditName = false
+      })
       this.$set(this.listitems[this.currentIndex], 'isEditName', true)
       this.menuVisible = false;
+    },
+    editName(){
+
     },
     saveName (){
       this.$set(this.listitems[this.currentIndex], 'isEditName', false)
@@ -186,6 +211,24 @@ export default {
     },
     toDetails(item) {
       console.log(item);
+      this.listitems.forEach(i=>{
+         i.active = false
+      })
+      this.$set(item, 'active', true)
+      this.$store.commit("setting/click_sidebar_show", true);
+      if(item.folder == '文件夹1'){
+      bus.$emit('articleContent', MARKDOWN2)
+
+      }else if(item.folder == '文件夹2'){
+      bus.$emit('articleContent', MARKDOWN1)
+
+      }
+      // else if(item.folder == '文件夹3'){
+      // bus.$emit('articleContent', MARKDOWN3)
+
+      // }
+      // console.log(MARKDOWN);
+
     },
     // 创建笔记
     addNoteHandler() {
@@ -198,8 +241,8 @@ export default {
 <style lang="scss" scoped>
 .note-item-title {
   font-size: 18px;
-  height: 34px;
-  line-height: 34px;
+  // height: 34px;
+  // line-height: 34px;
   margin-bottom: 6px;
   font-weight: 900;
   color: #3e3d3d;
@@ -220,6 +263,7 @@ export default {
   margin-bottom: 10px;
   height: 34px;
   margin-bottom: 6px;
+  width: 100%;
 }
 .inpstyle:focus-visible{
   outline: none;

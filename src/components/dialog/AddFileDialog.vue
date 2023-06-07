@@ -70,7 +70,6 @@ export default {
       options: [
         { label: "文件夹1", value: "文件夹1" },
         { label: "文件夹2", value: "文件夹2" },
-        { label: "文件夹3", value: "文件夹3" },
       ],
       fileType: '',
       newFileName: '',

@@ -24,7 +24,7 @@ module.exports = function (/* ctx */) {
     boot: [
       'i18n',
       'axios',
-      'mock'
+      // 'mock'
       // 'monaco'
     ],
 
@@ -82,7 +82,7 @@ module.exports = function (/* ctx */) {
       https: false,
       port: 8080,
       open: true,// opens browser window automatically
-      before: require('./mock/mock-server.js')
+      // before: require('./mock/mock-server.js')
 
     },
 
@@ -107,7 +107,8 @@ module.exports = function (/* ctx */) {
       // Quasar plugins
       plugins: [
         'Dialog',
-        'Notify'
+        'Notify',
+        'Loading'
       ]
     },
 

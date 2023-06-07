@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-header class="header bg-black q-electron-drag">
+    <q-header class="header bg-white q-electron-drag">
       <!-- 3333 -->
       <div class="text-grey show-left">
         <q-btn icon='pageview' dense flat round class='fab-icon cursor-pointer material-icons-round ' size='md'
@@ -61,7 +61,7 @@ export default {
     ...mapSettingState(["isSideBarShow", "isShowSearch", "toggleLeftDrawer", 'tabaListShow'])
   },
   created() {
-    this.getUserInfoData();
+    // this.getUserInfoData();
   },
   methods: {
     showAndHide: function () {
@@ -72,11 +72,11 @@ export default {
         this.$store.commit("setting/taba_list_show", true);
       }
     },
-    async getUserInfoData() {
-      await getUserInfo("/list/risk").then(res => {
-        console.log(res);
-      });
-    },
+    // async getUserInfoData() {
+    //   await getUserInfo("/list/risk").then(res => {
+    //     console.log(res);
+    //   });
+    // },
     showAndHideSearch() {
       this.$store.commit("setting/click_toogle_search", !this.isShowSearch);
     },
