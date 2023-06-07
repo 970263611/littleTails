@@ -1,16 +1,21 @@
+<!---右侧操作按钮--->
 <template>
   <div>
-    <q-btn icon="format_align_center" dense flat round
+    <!-- 目录列表 -->
+    <q-btn icon="format_align_center" dense flat round title="目录列表"
       class="absolute-top-right fab-icon cursor-pointer material-icons-round" size="md" color="#26A69A" v-ripple
       style="top:20px; right: 20px" @click="noteBtn">
     </q-btn>
-    <q-btn icon="format_align_center" dense flat round
+    <!-- 附件列表 -->
+    <q-btn icon="format_align_center" dense flat round title="附件列表"
       class="absolute-top-right fab-icon cursor-pointer material-icons-round" size="md" color="#26A69A" v-ripple
        style="top:70px; right: 20px" @click="annexBtn">
     </q-btn>
+    <!-- 保存按钮 -->
     <q-btn icon="save" class="absolute-bottom-right fab-icon cursor-pointer material-icons-round"
       @click="saveNotesHandler" style="bottom: 200px;right: 20px" dense flat round size="md" color="#26A69A" v-ripple
       title="保存" key="save" />
+    <!-- 文章信息按钮 -->
     <q-btn icon="dashboard" dense flat round class="absolute-bottom-right fab-icon cursor-pointer material-icons-round"
       style="bottom: 150px;right: 20px;" size="md" color="#26A69A" v-ripple key="wordCount">
       <q-tooltip transition-show="fade" transition-hide="fade" anchor="center left" self="center right">
@@ -27,10 +32,12 @@
         </div>
       </q-tooltip>
     </q-btn>
+    <!-- 模式切换按钮 -->
     <q-btn :icon="isSourceMode ? 'assignment' : 'code'" dense flat round
       class="absolute-bottom-right fab-icon cursor-pointer material-icons-round" style="bottom: 100px; right: 20px"
       size="md" color="#26A69A" v-ripple key="source_code" :title="!isSourceMode ? '源代码模式' : '预览模式'" @click="changeMode">
     </q-btn>
+    <!-- 笔记锁定按钮 -->
     <q-btn :icon='enablePreviewEditor ? "lock_open" : "lock"' dense flat round
       class='absolute-bottom-right fab-icon cursor-pointer material-icons-round' style='bottom: 50px;right: 20px;'
       @click='lockModeHandler' size='md' color='#26A69A' v-ripple key='lock'

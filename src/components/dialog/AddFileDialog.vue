@@ -1,6 +1,6 @@
 <template>
-  <!-- 新建笔记 -->
   <div>
+    <!-- 新建笔记 -->
     <q-dialog v-model="addfileVisible" ref="addfileVisibleRef" transition-show="fade" transition-hide="fade"
       class="base-dialog addfileVisibleRef">
       <q-card style="min-width: 460px;">
@@ -22,6 +22,7 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <!-- 编辑文件夹 -->
     <q-dialog v-model="editfileVisible" ref="editfileVisibleRef" transition-show="fade" transition-hide="fade"
       class="base-dialog editfileVisibleRef">
       <q-card style="min-width: 460px;">

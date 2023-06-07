@@ -1,22 +1,26 @@
 <template>
   <div>
     <q-header class="header bg-white q-electron-drag">
-      <!-- 3333 -->
       <div class="text-grey show-left">
+        <!--展开搜索框按钮 -->
         <q-btn icon='pageview' dense flat round class='fab-icon cursor-pointer material-icons-round ' size='md'
           color='#26A69A' v-ripple @click="showAndHideSearch" />
-        <q-btn dense flat round class='fab-icon cursor-pointer material-icons-round' size='md' color='#26A69A' v-ripple
+        <!-- 展开和收起 -->
+        <q-btn dense flat  round class='fab-icon cursor-pointer material-icons-round' size='md' color='#26A69A' v-ripple
           @click="showAndHide">
           开关
         </q-btn>
+        <!-- 导入文件 -->
         <q-btn icon='' dense flat round class='fab-icon cursor-pointer material-icons-round' size='md' color='#26A69A'
           v-ripple @click="$refs.ImportDialog.toggle()">
           导入
         </q-btn>
+        <!-- 设置自动保存 -->
         <q-btn icon='' dense flat round class='fab-icon cursor-pointer material-icons-round' size='md' color='#26A69A'
           v-ripple @click="showAutoSave">
           自动保存
         </q-btn>
+        <!-- 同步 -->
         <q-btn icon='' dense flat round class='fab-icon cursor-pointer material-icons-round' size='md' color='#26A69A'
           v-ripple @click="showSync">
           同步
@@ -25,9 +29,10 @@
 
       <div class="text-grey show-hide">
 
-        <!-- <div>{{ store.counter  }} {{counter }}</div> -->
+        <!-- 右侧按钮 -->
         <q-btn icon='settings' dense flat round class='fab-icon cursor-pointer material-icons-round' size='md'
           color='#26A69A' v-ripple @click="showSetting" />
+        
         <q-btn dense flat icon="minimize" @click="minimize" />
         <q-btn dense flat icon="crop_square" @click="maximize" />
         <q-btn dense flat icon="close" class="close-button" @click="closeApp" />

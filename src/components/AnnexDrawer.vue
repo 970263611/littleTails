@@ -1,3 +1,4 @@
+<!---附件列表---->
 <template>
   <q-drawer
     v-model="isAnnexShow"
@@ -12,6 +13,7 @@
     class='bg-blur'
   >
   <div class="scroll full-height annexDrawer">
+    <!-- 列表区域 -->
     <q-scroll-area
       :thumb-style = "{display:'none'}"
       :bar-style= "{display:'none'}"
@@ -22,6 +24,7 @@
         
       </div>
     </q-scroll-area>
+    <!-- 关闭按钮 -->
     <q-icon
       name='close'
       style="bottom:10px;right: 10px;"

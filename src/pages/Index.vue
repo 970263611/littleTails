@@ -12,26 +12,22 @@
     >
       <!-- 左侧列表 -->
       <template v-slot:before>
-        <!-- 动画效果 -->
-        <!-- <transition-group
+        <!-- 笔记列表 -->
+        <Sidebar key="sidebar" v-show="tabaListShow"></Sidebar>
 
-          appear
-          enter-active-class="animated fadeIn"
-          leave-active-class="animated fadeOut"
-        >  -->
-          <Sidebar key="sidebar" v-show="tabaListShow"></Sidebar>
-          <NoteOutlineDrawer key="note_outline_drawer" v-if="!tabaListShow"></NoteOutlineDrawer>
-        <!-- </transition-group> -->
+        <!-- 笔记目录 -->
+        <NoteOutlineDrawer key="note_outline_drawer" v-if="!tabaListShow"></NoteOutlineDrawer>
       </template>
+
       <!-- 右侧主内容区 -->
       <template v-slot:after>
         <div class="full-height mian_content">
-          <!-- muya -->
-          <!-- 代码编辑器 --> 
+          <!-- 文章编辑器 --> 
           <div class="my_dom" v-show="!isSourceMode && isNullStyle">
             <muya></muya>
           </div>
-          <!--代码展示编辑器-->
+
+          <!--代码编辑器-->
           <div v-if="isSourceMode" class="monaco_dom">
             <monaco
             ref="monaco"
@@ -51,10 +47,13 @@
               enter-active-class="animated fadeIn" 
               leave-active-class="animated fadeOut"
             >
+              <!-- 按钮列表 -->
               <RightBtnList></RightBtnList>
             </transition>
           </div>
         </div>
+
+        <!-- 附件列表 -->
         <AnnexDrawer></AnnexDrawer>
       </template>
     </q-splitter>
@@ -96,29 +95,11 @@ export default {
       newsplitterWidthValue:30,
       splitterLimits: [0, 60],
       muyaData:{},
-      // isNullStyle:false/
-      
-      // tabaListShow:true
-      // isShow:false
     };
   },
   computed: {
     ...mapSettingState(["isSideBarShow",'tabaListShow','isNullStyle',
      "isSourceMode",'toggleLeftDrawer','enablePreviewEditor']),
-    // splitterLimits(){
-    //   if(!this.isSideBarShow && !this.toggleLeftDrawer){
-    //     return [0, 0]
-    //   }else{
-    //     return [0, 60]
-    //   }
-    // },
-    // splitterWidthValue(){
-    //   if(!this.isSideBarShow && !this.toggleLeftDrawer){
-    //     return 0;
-    //   }else{
-    //     return this.newsplitterWidthValue
-    //   }
-    // }
   },
   provide() {
     return {
@@ -131,6 +112,7 @@ export default {
       })
   },
   watch: {
+    // 笔记列表
     isSideBarShow: function (currentData) {
       console.log(currentData,this.toggleLeftDrawer);
       this.splitterLimits = [0, 60];
@@ -142,6 +124,7 @@ export default {
 
       }
     },
+    // 笔记目录
     toggleLeftDrawer:function (currentData) {
       console.log(currentData);
       this.splitterLimits = [0, 60];

@@ -1,6 +1,8 @@
+<!---左侧笔记列表--->
 <template>
   <div class="scroll bg-white full-height">
     <q-scroll-area class="full-height">
+      <!-- 搜索框 -->
       <div class="q-pa-md" v-show="isShowSearch">
         <q-input outlined v-model="searchVal">
           <template v-slot:prepend>
@@ -11,32 +13,39 @@
           </template>
         </q-input>
       </div>
+      <!-- 笔记列表 -->
       <q-list>
         <q-item clickable v-ripple="{ color: '#212121' }" :active="item.active" active-class="bg-grey-3 text-grey-8"
          v-for="(item, index) in listitems" @click="toDetails(item)"
           :key="index">
           <q-item-section>
             <div @contextmenu.prevent="openMenu($event, item,index)" class="sidebar_list">
+              <!-- 笔记名称 -->
               <div v-if="!item.isEditName" class="note-item-title" v-html="item.title"></div>
               <input type="text" class="note-item-title inpstyle" v-if="item.isEditName" @click.stop="editName"  v-model="item.title"  @blur="saveName">
-              <!-- <q-input  @blur="saveName"  v-if="item.isEditName" class="note-item-title" v-model="item.title"  /> -->
+              <!-- 摘要 -->
               <div class="note-item-summary text-grey-7" v-html="item.summary"></div>
-
               <div class="flex justify-between no-wrap overflow-hidden fa-align-center text-grey-7">
-                <span v-if="!item.isEditfolder" class="text-left note-info-tag"><q-icon name="category" size="17px" /> {{item.folder}}</span>
-                <q-select dense size="md" v-if="item.isEditfolder"  @input="saveFolder"  v-model="item.folder" :options="options" />
+                <!-- 文件夹 -->
+                <span v-show="!item.isEditfolder" class="text-left note-info-tag"><q-icon name="category" size="17px" /> {{item.folder}}</span>
+                <div @click.stop>
+                  <q-select dense size="md" v-show="item.isEditfolder"  @input="saveFolder"  v-model="item.folder" :options="options" />
+                </div>
+                <!-- 日期 -->
                 <span class="text-right note-info-tag"><q-icon name="timer" size="17px" /> {{ "2022-1-1" }}</span>
               </div>
             </div>
           </q-item-section>
         </q-item>
-      </q-list>
+      </q-list> 
     </q-scroll-area>
+    <!-- 创建笔记操作 -->
     <q-btn style="bottom: 30px; right: 20px" class="absolute-bottom-right fab-btn" size="lg" round color="primary"
       @click="addNoteHandler" icon="note_add">
       <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
         content-class=" text-white shadow-4  text-h7">创建笔记</q-tooltip>
     </q-btn>
+    <!-- 右键菜单 -->
     <ul class="contextmenu" v-show="menuVisible" :style="{ left: menuLf + 'px', top: menuTp + 'px' }">
       <li @click.prevent="rename">重命名</li>
       <li @click.prevent="fileMove">移动</li>
@@ -176,7 +185,11 @@ export default {
          i.isEditName = false
       })
       this.$set(this.listitems[this.currentIndex], 'isEditName', true)
+      console.log(document.getElementsByClassName('sidebar_list'))
       this.menuVisible = false;
+      this.$nextTick(()=>{
+        console.log(document.getElementsByClassName('inpstyle')[0].focus())
+      })
     },
     editName(){
 
