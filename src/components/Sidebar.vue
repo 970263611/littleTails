@@ -16,20 +16,20 @@
       <!-- 笔记列表 -->
       <q-list>
         <q-item clickable v-ripple="{ color: '#212121' }" :active="item.active" active-class="bg-grey-3 text-grey-8"
-         v-for="(item, index) in listitems" @click="toDetails(item)"
+         v-for="(item, index) in listitems" @click="toDetails(item,index)"
           :key="index">
           <q-item-section>
             <div @contextmenu.prevent="openMenu($event, item,index)" class="sidebar_list">
               <!-- 笔记名称 -->
               <div v-if="!item.isEditName" class="note-item-title" v-html="item.title"></div>
-              <input type="text" class="note-item-title inpstyle" v-if="item.isEditName" @click.stop="editName"  v-model="item.title"  @blur="saveName">
+              <input type="text" class="note-item-title inpstyle" v-if="item.isEditName" @click.stop  v-model="item.title"  @blur="saveName">
               <!-- 摘要 -->
               <div class="note-item-summary text-grey-7" v-html="item.summary"></div>
               <div class="flex justify-between no-wrap overflow-hidden fa-align-center text-grey-7">
                 <!-- 文件夹 -->
-                <span v-show="!item.isEditfolder" class="text-left note-info-tag"><q-icon name="category" size="17px" /> {{item.folder}}</span>
-                <div @click.stop>
-                  <q-select dense size="md" v-show="item.isEditfolder"  @input="saveFolder"  v-model="item.folder" :options="options" />
+                <span v-if="!item.isEditfolder" class="text-left note-info-tag"><q-icon name="category" size="17px" /> {{item.folder}}</span>
+                <div v-if="item.isEditfolder" @click.stop>
+                  <q-select dense size="md"  @input="saveFolder"  v-model="item.folder" :options="options" />
                 </div>
                 <!-- 日期 -->
                 <span class="text-right note-info-tag"><q-icon name="timer" size="17px" /> {{ "2022-1-1" }}</span>
@@ -80,45 +80,10 @@
 </template>
 
 <script>
-let MARKDOWN1  = `# 离线同步 — 没网也可以随时查看笔记.md
-
-##你可以利用为知笔记随时随地记录和查看有价值的信息，所有数据在电脑、手机、平板、网页可通过同步保持一致。
-
-#### 有用信息同步到云端，安全又省事
-
-你是不是偶尔会遇到下面一些情况：
-
-1. 手机意外重启，写了好久的内容还没来得及保存？
-2. 手机丢失，各种照片和信息没有备份，无法找回？芙蓉湖好烦人 今日进入
-3. 更换手机或电脑，各种信息还需要来来回回 copy 才能继续使用？
-
-无需费劲的备份或拷贝，利用为知笔记，数据都保存到云端，再也不用担心数据丢失。
-
-
-`
-let MARKDOWN2 = `# 3 分钟创建格式美美的笔记.md
-
-如果你想创建格式美美的，且包含文字，表格，图片，公式，甚至是不同型号标题的笔记，那么推荐你使用Markdown 笔记。为知笔记支持 Markdown 的渲染，用简单的语法就可以写出赏心悦目的笔记。
-
-#### 简单两步完成操作
-
-1. **长按**笔记列表底端的羽毛笔，选择 **Markdown**
-2. 在正文中撰写 Markdown 语法，点击完成，就可以看到渲染后美美的笔记啦。
-
-简单介绍几种常用语法
-
-##### 标题
-
-在行首插入 1 到 6个#，分别表示标题 1 到标题 6
-
-##### 这是标题5
-
-###### 这是标题6
-`
 import { createNamespacedHelpers } from 'vuex'
 import AddFileDialog from './dialog/AddFileDialog.vue';
 import bus from '../components/bus'
-
+import { MARKDOWN1, MARKDOWN2 } from './mockData.js';
 const {
   mapState: mapSettingState,
   mapActions: mapSettingActions
@@ -142,6 +107,7 @@ export default {
           title: "离线同步 — 没网也可以随时查看笔记.md",
           summary: "你可以利用为知笔记随时随地记录和查看有价值的信息，所有数据在电脑、手机、平板、网页可通过同步保持一致。",
           isEditName:false,
+          isEditfolder:false,
           folder:'文件夹2',
           active:false
 
@@ -160,6 +126,8 @@ export default {
         { label: "文件夹3", value: "文件夹3" },
       ],
       searchVal: "",
+      MARKDOWN2,
+      MARKDOWN1
     };
   },
   computed: {
@@ -199,9 +167,13 @@ export default {
 
     },
     fileMove() {
+      this.listitems.forEach(i=>{
+        i.isEditfolder = false
+      })
       this.$set(this.listitems[this.currentIndex], 'isEditfolder', true)
       this.menuVisible = false;
     },
+    // 移动文件夹操作
     saveFolder(value){                                                                      
       this.$set(this.listitems[this.currentIndex], 'folder', value.label)
       this.$set(this.listitems[this.currentIndex], 'isEditfolder', false)
@@ -222,18 +194,18 @@ export default {
     exportPng(){
 
     },
-    toDetails(item) {
+    toDetails(item, index) {
       console.log(item);
       this.listitems.forEach(i=>{
          i.active = false
       })
       this.$set(item, 'active', true)
       this.$store.commit("setting/click_sidebar_show", true);
-      if(item.folder == '文件夹1'){
-      bus.$emit('articleContent', MARKDOWN2)
+      if(index == 0){
+      bus.$emit('articleContent', MARKDOWN2())
 
-      }else if(item.folder == '文件夹2'){
-      bus.$emit('articleContent', MARKDOWN1)
+      }else if(index == 1){
+      bus.$emit('articleContent', MARKDOWN1())
 
       }
       // else if(item.folder == '文件夹3'){
