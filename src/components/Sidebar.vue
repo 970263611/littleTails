@@ -195,6 +195,7 @@ export default {
 
     },
     toDetails(item, index) {
+      this.$store.commit('setting/click_tab_right_mode', false)
       console.log(item);
       this.listitems.forEach(i=>{
          i.active = false

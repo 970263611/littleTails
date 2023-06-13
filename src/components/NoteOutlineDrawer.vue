@@ -45,8 +45,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-import bus from '../components/bus'
-import helper from '../utils/index'
+import helper from '../utils/index' //格式化数据
 const {
   mapState: mapSettingState,
   mapActions: mapSettingActions
@@ -63,11 +62,9 @@ export default {
     ...mapSettingState(['toggleLeftDrawer'])
   },
   created(){
-    this.listData = bus.sendDataAll.toc
-    // updateContentsList(this.listData)
-    console.log(this.listData);
+    let markdownChang = JSON.parse(sessionStorage.getItem('markdownChang'))
+    this.listData = markdownChang.toc
     this.contentsList = helper.updateContentsList(this.listData)
-    console.log(this.contentsList);
   },
   methods:{
     hide(){

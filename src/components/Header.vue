@@ -33,9 +33,9 @@
         <q-btn icon='settings' dense flat round class='fab-icon cursor-pointer material-icons-round' size='md'
           color='#26A69A' v-ripple @click="showSetting" />
         
-        <q-btn dense flat icon="minimize" @click="minimize" />
-        <q-btn dense flat icon="crop_square" @click="maximize" />
-        <q-btn dense flat icon="close" class="close-button" @click="closeApp" />
+        <q-btn dense flat round icon="minimize" @click="minimize" />
+        <q-btn dense flat round icon="crop_square" @click="maximize" />
+        <q-btn dense flat round icon="close" class="close-button" @click="closeApp" />
       </div>
     </q-header>
     <ImportDialog ref="ImportDialog"></ImportDialog>

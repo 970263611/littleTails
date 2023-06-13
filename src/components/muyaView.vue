@@ -66,12 +66,7 @@ export default {
       });
 //       this.editor.setMarkdown()
       this.editor.on("change", (changes) => {
-        console.log(changes);
-        bus.$on('markdownChang',args=>{
-          // console.log(params);
-          bus.sendDataAll = args
-        })
-        bus.$emit('markdownChang',changes)
+        sessionStorage.setItem('markdownChang',JSON.stringify(changes))
         this.muyaData = changes.markdown
         // 事件先注册$on 后触发$emit,否则监听不到
         bus.$on('muyaData',args=>{
